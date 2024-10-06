@@ -13,12 +13,16 @@ import CodeEditorPage from './pages/CodeEditorPage';
 import SharePage from './pages/SharePage';
 import Settings from './pages/SettingPage';
 import SmoothScroll from "../src/components/smoothscroll/SmoothScroll";
+import SheetHome from './components/sheet/SheetHome';
+import EditProfile from './components/editprofile/EditProfile';
+import Footer from './components/footer';
 function App() {
   const location = useLocation();
-  const hideNavbarPaths = ['/dashboard', '/profile', '/settings','/code-editor'];
+  const hideNavbarPaths = ['/dashboard', '/settings'];
 
   return (
-    <SmoothScroll>
+    // <SmoothScroll>
+    <>
       {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,15 +30,18 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<ProfileSection />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/events" element={<Event />} />
-        <Route path="/sheets" element={<CodingSheetPage />} />
+        <Route path="/sheets" element={<SheetHome />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/code-editor" element={<CodeEditorPage />} />
         <Route path="/share/:id" element={<SharePage />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
-    </SmoothScroll>
+      <Footer/>
+      </>
+    // </SmoothScroll>
   );
 }
 

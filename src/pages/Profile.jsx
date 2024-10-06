@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import { auth } from "../services/firebase"; // Import your Firebase auth service
 import { updateProfile } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { CiLocationOn } from "react-icons/ci";
+import { PiGraduationCapLight } from "react-icons/pi";
+import { CiMail } from "react-icons/ci";
+import { CiLinkedin } from "react-icons/ci";
+import { FaXTwitter } from "react-icons/fa6";
+import { CiGlobe } from "react-icons/ci";
+import { PiGithubLogoLight } from "react-icons/pi";
+import SignIn from "./Signin";
 
 const ProfileSection = () => {
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    bio: '',
-    location: '',
+    name: "",
+    bio: "",
+    location: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch user information after login
@@ -17,13 +27,13 @@ const ProfileSection = () => {
     if (currentUser) {
       setUser({
         name: currentUser.displayName,
-        avatar: currentUser.photoURL || 'https://via.placeholder.com/150',
+        avatar: currentUser.photoURL || "https://via.placeholder.com/150",
         email: currentUser.email,
       });
       setFormData({
-        name: currentUser.displayName || '',
-        bio: '', // You may store this in a Firestore document, etc.
-        location: '', // Same as bio
+        name: currentUser.displayName || "",
+        bio: "", // You may store this in a Firestore document, etc.
+        location: "", // Same as bio
       });
     }
   }, []);
@@ -54,158 +64,99 @@ const ProfileSection = () => {
   };
 
   if (!user) {
-    return <div className="w-full min-h-screen flex justify-center items-center">
-              <div className="w-12 h-12 rounded-full border-4 border-black"></div>
-    </div>;
+    // return <div className="w-full min-h-screen flex justify-center items-center">
+    //           <div className="w-12 h-12 rounded-full border-4 border-black"></div>
+    // </div>;
+    // navigate("/login");
+    return <SignIn />;
   }
 
   return (
     <div className="bg-gray-100 min-h-screen w-full p-8 flex justify-center gap-5">
-      <div className="w-1/5 bg-white rounded-md shadow-md p-5">
-      <div className="flex items-center space-y-2 flex-col justify-center">
+      <div className="w-1/5 bg-white rounded-lg shadow-md p-4 mt-16">
+        <div className="flex items-center justify-center">
           <img
             src={user.avatar}
             alt="Profile"
-            className="w-24 h-24 rounded-full shadow-lg"
+            className="w-16 h-16 rounded-full shadow-lg"
           />
           <div className="flex flex-col justify-center items-center">
-            {editing ? (
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="text-xl font-bold text-gray-800 bg-transparent border-b border-gray-400"
-              />
-            ) : (
-              <h1 className="text-xl font-bold text-gray-800">{user.name}</h1>
-            )}
+            <h1 className="text-xl font-bold text-gray-800">{user.name}</h1>
             <p className="text-gray-600">{user.email}</p>
-            {editing ? (
-              <>
-                <input
-                  type="text"
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  placeholder="Add a short bio..."
-                  className="text-gray-500 bg-transparent border-b border-gray-400"
-                />
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder="Your location"
-                  className="text-gray-500 bg-transparent border-b border-gray-400"
-                />
-              </>
-            ) : (
-              <>
-                <p className="text-gray-500">{formData.bio}</p>
-                <p className="text-gray-500">{formData.location}</p>
-              </>
-            )}
           </div>
         </div>
         <div className="w-full mt-5">
-        {editing ? (
-          <div className="flex space-x-4">
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-              onClick={handleSaveChanges}
-            >
-              Save Changes
-            </button>
-            <button
-              className="px-4 py-2 bg-gray-400 text-white rounded-lg"
-              onClick={handleEditToggle}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
           <button
-            className="w-full py-2 bg-blue-500 text-white rounded-lg"
-            onClick={handleEditToggle}
+            className="w-full py-2 bg-green-100 text-green-700 font-semibold rounded-md"
+            onClick={() => {
+              navigate("/edit-profile");
+            }}
           >
             Edit Profile
           </button>
-        )}
+        </div>
+        <div className="w-full py-5 flex flex-col gap-2 border-b">
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <CiLocationOn className="text-xl opacity-65" />
+            </span>
+            <span>Location</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <PiGraduationCapLight className="text-xl opacity-65" />
+            </span>
+            <span>Education</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <CiMail className="text-xl opacity-65" />
+            </span>
+            <span>Email</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <CiLinkedin className="text-xl opacity-65" />
+            </span>
+            <span>linkedin</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <FaXTwitter className="text-xl opacity-65" />
+            </span>
+            <span>twitter</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <CiGlobe className="text-xl opacity-65" />
+            </span>
+            <span>web</span>
+          </div>
+          <div className="w-full flex justify-start items-center gap-10">
+            <span>
+              <PiGithubLogoLight className="text-xl opacity-65" />
+            </span>
+            <span>github</span>
+          </div>
+        </div>
+        <div className="w-full flex flex-col gap-2 py-4">
+          <div className="w-full px-4 py-2 bg-gray-100 rounded-md border">
+            <button>Overall stats</button>
+          </div><div className="w-full px-4 py-2 bg-gray-100 rounded-md border">
+            <button>Platform wise stats</button>
+          </div>
+        </div>
+        <div>
+          <label htmlFor="visibilty">Visibilty</label>
+          <select name="#" id="visibility">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="private">Custom</option>
+          </select>
         </div>
       </div>
-      <div className="w-3/5  bg-white p-6 rounded-lg shadow-md">
-        {/* Profile Header
-        <div className="flex items-center space-x-6 mb-6">
-          <img
-            src={user.avatar}
-            alt="Profile"
-            className="w-24 h-24 rounded-full shadow-lg"
-          />
-          <div>
-            {editing ? (
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="text-3xl font-bold text-gray-800 bg-transparent border-b border-gray-400"
-              />
-            ) : (
-              <h1 className="text-3xl font-bold text-gray-800">{user.name}</h1>
-            )}
-            <p className="text-gray-600">{user.email}</p>
-            {editing ? (
-              <>
-                <input
-                  type="text"
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  placeholder="Add a short bio..."
-                  className="text-gray-500 bg-transparent border-b border-gray-400"
-                />
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder="Your location"
-                  className="text-gray-500 bg-transparent border-b border-gray-400"
-                />
-              </>
-            ) : (
-              <>
-                <p className="text-gray-500">{formData.bio}</p>
-                <p className="text-gray-500">{formData.location}</p>
-              </>
-            )}
-          </div>
-        </div>
 
-        {editing ? (
-          <div className="flex space-x-4">
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-              onClick={handleSaveChanges}
-            >
-              Save Changes
-            </button>
-            <button
-              className="px-4 py-2 bg-gray-400 text-white rounded-lg"
-              onClick={handleEditToggle}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-            onClick={handleEditToggle}
-          >
-            Edit Profile
-          </button>
-        )} */}
+      <div className="w-3/5  bg-white p-6 rounded-lg shadow-md mt-16">
 
         {/* Coding Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-6">

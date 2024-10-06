@@ -91,7 +91,7 @@ const CodeEditorPage = () => {
 
   return (
     <div className={`px-20 py-10 ${isFullscreen ? 'fullscreen' : ''}`}>
-      <h1 className="text-2xl font-bold mb-4">Code Execution Platform</h1>
+      {/* <h1 className="text-2xl font-bold mb-4">Code Execution Platform</h1> */}
       <div className=' gap-5 absolute z-10 left-[35%] mt-4 hidden'>
         <button
           onClick={() => setIsModalOpen(true)} // Open the modal on click
@@ -124,7 +124,7 @@ const CodeEditorPage = () => {
 
       <div
         ref={editorRef} // Set the ref to the editor container
-        className={`w-full min-h-[80vh] flex ${isFullscreen ? 'fullscreen-editor' : ''}`}
+        className={`w-full min-h-[80vh] mt-14 flex ${isFullscreen ? 'fullscreen-editor' : ''}`}
       >
         <CodeEditorComponent
           language={language}

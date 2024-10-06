@@ -60,7 +60,7 @@ const Navbar = () => {
     <AnimatePresence>
       {isVisible && (
         <motion.nav
-          className="rounded-full top-10 md:min-w-[50vw] lg:min-w-fit fixed z-[5000] inset-x-0 mx-auto max-w-2xl py-2 px-5 flex justify-between items-center bg-white text-black"
+          className="top-0 border-b md:min-w-[50vw] fixed z-[5000] inset-x-0 mx-auto py-2 px-5 flex justify-between items-center bg-white text-black"
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -100 }}

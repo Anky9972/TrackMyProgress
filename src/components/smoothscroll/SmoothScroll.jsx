@@ -7,7 +7,7 @@ const SmoothScroll = ({ children }) => {
   // 1.
   const windowSize = useWindowSize();
 
-  //2.
+  // 2.
   const scrollingContainerRef = useRef();
 
   // 3.
@@ -24,25 +24,38 @@ const SmoothScroll = ({ children }) => {
   }, [windowSize.height]);
 
   const setBodyHeight = () => {
-    document.body.style.height = `${
-      scrollingContainerRef.current.getBoundingClientRect().height
-    }px`;
+    if (scrollingContainerRef.current) {
+      document.body.style.height = `${scrollingContainerRef.current.getBoundingClientRect().height}px`;
+    }
   };
 
   // 5.
   useEffect(() => {
-    requestAnimationFrame(() => smoothScrollingHandler());
+    if (scrollingContainerRef.current) {
+      const animate = () => {
+        requestAnimationFrame(smoothScrollingHandler);
+      };
+
+      requestAnimationFrame(animate);
+
+      // Cleanup function to prevent memory leaks
+      return () => {
+        cancelAnimationFrame(animate);
+      };
+    }
   }, []);
 
   const smoothScrollingHandler = () => {
-    data.current = window.scrollY;
-    data.previous += (data.current - data.previous) * data.ease;
-    data.rounded = Math.round(data.previous * 100) / 100;
+    if (scrollingContainerRef.current) {
+      data.current = window.scrollY;
+      data.previous += (data.current - data.previous) * data.ease;
+      data.rounded = Math.round(data.previous * 100) / 100;
 
-    scrollingContainerRef.current.style.transform = `translateY(-${data.previous}px)`;
+      scrollingContainerRef.current.style.transform = `translateY(-${data.previous}px)`;
 
-    // Recursive call
-    requestAnimationFrame(() => smoothScrollingHandler());
+      // Recursive call
+      requestAnimationFrame(smoothScrollingHandler);
+    }
   };
 
   return (
